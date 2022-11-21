@@ -1,18 +1,19 @@
 {
-  "name": "mesto-react",
+  "name": "mesto-react-auth",
   "version": "0.1.0",
   "private": true,
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bofeof/mesto-react.git"
+    "url": "git+https://github.com/bofeof/mesto-react-auth.git"
   },
-  "homepage": "http://bofeof.github.io/mesto-react",
+  "homepage": "http://bofeof.github.io/mesto-react-auth",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-router-dom": "^5.3.4",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
   },

@@ -1,22 +1,32 @@
-import Header from '../components/Header';
-import Main from '../components/Main';
-import Footer from '../components/Footer';
+import { useEffect, useState } from "react";
+import { Switch, Route, Redirect, useHistory } from "react-router-dom";
 
-import ImagePopup from '../components/ImagePopup';
-import PopupConfirm from '../components/PopupConfirm';
-import EditProfilePopup from '../components/EditProfilePopup';
-import EditAvatarPopup from './EditAvatarPopup';
-import AddPlacePopup from './AddPlacePopup';
+import { API } from "../utils/API.js";
+import { configAPI } from "../utils/constants.js";
 
-import { CurrentUserContext } from '../contexts/CurrentUserContext';
+import Header from "../components/Header";
+import Main from "../components/Main";
+import Footer from "../components/Footer";
+import Login from "./Login";
+import Register from "./Register";
+import ProptectedRoute from "./ProtectedRoute";
+import InfoTooltip from "./InfoTooltip";
 
-import { API } from '../utils/API.js';
-import { configAPI } from '../utils/constants.js';
+import ImagePopup from "../components/ImagePopup";
+import PopupConfirm from "../components/PopupConfirm";
+import EditProfilePopup from "../components/EditProfilePopup";
+import EditAvatarPopup from "./EditAvatarPopup";
+import AddPlacePopup from "./AddPlacePopup";
 
-import { useEffect, useState } from 'react';
+import {
+  CurrentUserContext,
+  LoggedInContext,
+} from "../contexts/CurrentUserContext";
 
 export default function App() {
   const api = new API(configAPI);
+
+  const [loggedIn, setLoggedIn] = useState(true);
 
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setAddPlacePopupOpen] = useState(false);
@@ -27,10 +37,10 @@ export default function App() {
   const [selectedCard, setSelectedCard] = useState({});
   const [currentUser, setCurrentUser] = useState({});
 
-  const [btnTextAvatarSubmit, setBtnTextAvatarSubmit] = useState('Сохранить');
-  const [btnTextUserSubmit, setBtnTextUserSubmit] = useState('Сохранить');
-  const [btnTextCardSubmit, setBtnTextCardSubmit] = useState('Создать');
-  const [btnTextConfirm, setBtnTextConfirm] = useState('Да');
+  const [btnTextAvatarSubmit, setBtnTextAvatarSubmit] = useState("Сохранить");
+  const [btnTextUserSubmit, setBtnTextUserSubmit] = useState("Сохранить");
+  const [btnTextCardSubmit, setBtnTextCardSubmit] = useState("Создать");
+  const [btnTextConfirm, setBtnTextConfirm] = useState("Да");
 
   const [cardForRemove, setCardForRemove] = useState({});
 
@@ -66,7 +76,9 @@ export default function App() {
     api
       .changeLikeCardStatus(card._id, isLiked)
       .then((newCard) => {
-        setCards((prevStateCards) => prevStateCards.map((c) => (c._id === card._id ? newCard : c)));
+        setCards((prevStateCards) =>
+          prevStateCards.map((c) => (c._id === card._id ? newCard : c))
+        );
       })
       .catch((err) => console.log(`Ошибка: ${err}`));
   }
@@ -77,15 +89,31 @@ export default function App() {
     setConfirmPopupOpen(true);
   }
 
+  function handleLogin() {
+    setLoggedIn(true);
+    // add jsx
+  }
+
+  function handleLogOut() {
+    setLoggedIn(false);
+    // remove jsx
+  }
+
+  // function handleRedirect(pathLink){
+
+  // }
+
   function onCardRemove() {
-    setBtnTextConfirm(() => 'Удаление...');
+    setBtnTextConfirm(() => "Удаление...");
     api
       .removePhotoCard(cardForRemove._id)
       .then(() => {
-        setCards((prevGallery) => prevGallery.filter((prevCard) => prevCard._id !== cardForRemove._id));
+        setCards((prevGallery) =>
+          prevGallery.filter((prevCard) => prevCard._id !== cardForRemove._id)
+        );
       })
       .catch((err) => console.log(`Ошибка: ${err}`))
-      .finally(() => setBtnTextConfirm(() => 'Да'));
+      .finally(() => setBtnTextConfirm(() => "Да"));
   }
 
   function closeAllPopups() {
@@ -100,30 +128,30 @@ export default function App() {
   }
 
   function onUserUpdate(userData) {
-    setBtnTextUserSubmit(() => 'Сохранение...');
+    setBtnTextUserSubmit(() => "Сохранение...");
     api
       .setUserData(userData)
       .then((userData) => {
         setCurrentUser(userData);
       })
       .catch((err) => console.log(`Ошибка: ${err}`))
-      .finally(() => setBtnTextUserSubmit(() => 'Cохранить'));
+      .finally(() => setBtnTextUserSubmit(() => "Cохранить"));
   }
 
   function onAvatarUpdate(avatarLink) {
-    setBtnTextAvatarSubmit(() => 'Сохранение...');
+    setBtnTextAvatarSubmit(() => "Сохранение...");
     api
       .changeUserAvatar(avatarLink)
       .then((userData) => {
         setCurrentUser(userData);
       })
       .catch((err) => console.log(`Ошибка: ${err}`))
-      .finally(() => setBtnTextAvatarSubmit(() => 'Cохранить'));
+      .finally(() => setBtnTextAvatarSubmit(() => "Cохранить"));
   }
 
   function onCardCreate(cardData) {
     setBtnTextCardSubmit(() => {
-      return 'Создание...';
+      return "Создание...";
     });
     api
       .addPhotoCard(cardData)
@@ -133,46 +161,86 @@ export default function App() {
         });
       })
       .catch((err) => console.log(`Ошибка: ${err}`))
-      .finally(() => setBtnTextCardSubmit(() => 'Создать'));
+      .finally(() => setBtnTextCardSubmit(() => "Создать"));
   }
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
-      <div className="page page-content">
-        <Header />
+      <LoggedInContext.Provider value={loggedIn}>
+        <div className="page page-content">
+          <Header onLogOut={handleLogOut} />
 
-        <Main
-          onEditProfile={handleEditProfileClick}
-          onAddPlace={handleAddPlaceClick}
-          onEditAvatar={handleEditAvatarClick}
-          onCardClick={handleCardClick}
-          onCardLike={handleCardLike}
-          onCardDelete={handleAskConfirmationClick}
-          onClose={closeAllPopups}
-          cards={cards}
-          card={selectedCard}
-        />
+          <Switch>
+            <ProptectedRoute
+              path="/"
+              exact
+              component={Main}
+              // props for Main:
+              onEditProfile={handleEditProfileClick}
+              onAddPlace={handleAddPlaceClick}
+              onEditAvatar={handleEditAvatarClick}
+              onCardClick={handleCardClick}
+              onCardLike={handleCardLike}
+              onCardDelete={handleAskConfirmationClick}
+              onClose={closeAllPopups}
+              cards={cards}
+              card={selectedCard}
+            />
 
-        <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onSubmit={onUserUpdate} buttonSubmitName={btnTextUserSubmit} />
+            <Route exact path="/sign-up">
+              <Register />
+            </Route>
 
-        <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onSubmit={onAvatarUpdate} buttonSubmitName={btnTextAvatarSubmit} />
+            <Route exact path="/sign-in">
+              <Login />
+            </Route>
 
-        <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onSubmit={onCardCreate} buttonSubmitName={btnTextCardSubmit} />
+            <Route>
+              {loggedIn ? <Redirect to="/" /> : <Redirect to="/sign-in" />}
+            </Route>
+          </Switch>
 
-        <ImagePopup card={selectedCard} isOpen={isCardZoomPopupOpen} onClose={closeAllPopups} />
+          <EditProfilePopup
+            isOpen={isEditProfilePopupOpen}
+            onClose={closeAllPopups}
+            onSubmit={onUserUpdate}
+            buttonSubmitName={btnTextUserSubmit}
+          />
 
-        <PopupConfirm
-          title="Вы уверены?"
-          buttonConfirmName={btnTextConfirm}
-          isOpen={isConfirmPopupOpen}
-          onClose={closeAllPopups}
-          onConfirm={onCardRemove}
-          card={cardForRemove}
-        />
+          <EditAvatarPopup
+            isOpen={isEditAvatarPopupOpen}
+            onClose={closeAllPopups}
+            onSubmit={onAvatarUpdate}
+            buttonSubmitName={btnTextAvatarSubmit}
+          />
 
-        <Footer />
-      </div>
-      
+          <AddPlacePopup
+            isOpen={isAddPlacePopupOpen}
+            onClose={closeAllPopups}
+            onSubmit={onCardCreate}
+            buttonSubmitName={btnTextCardSubmit}
+          />
+
+          <ImagePopup
+            card={selectedCard}
+            isOpen={isCardZoomPopupOpen}
+            onClose={closeAllPopups}
+          />
+
+          <PopupConfirm
+            title="Вы уверены?"
+            buttonConfirmName={btnTextConfirm}
+            isOpen={isConfirmPopupOpen}
+            onClose={closeAllPopups}
+            onConfirm={onCardRemove}
+            card={cardForRemove}
+          />
+
+          <InfoTooltip />
+
+          <Footer />
+        </div>
+      </LoggedInContext.Provider>
     </CurrentUserContext.Provider>
   );
 }
