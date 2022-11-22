@@ -81,6 +81,14 @@
   margin: 20px auto 0;
 }
 
+@media screen and (max-width: 768px) {
+  .identity__container {
+    max-width: 260px;
+    width: 260px;
+    margin: 0 auto 0;
+  }
+}
+
 .identity__header {
   margin: 0 auto 50px;
   font-family: "Inter";
@@ -90,6 +98,14 @@
   line-height: 29px;
   text-align: center;
   color: #ffffff;
+}
+
+@media screen and (max-width: 768px) {
+  .identity__header {
+    font-size: 20px;
+    line-height: 24px;
+    margin: 0 auto 40px;
+  }
 }
 
 .identity__form {
@@ -149,6 +165,12 @@
   transition: opacity 0.5s ease-in-out;
 }
 
+@media screen and (max-width: 768px) {
+  .identity__form-button {
+    margin: 173px auto 20px;
+  }
+}
+
 .identity__form-button:hover {
   opacity: 0.85;
   cursor: pointer;
@@ -170,6 +192,13 @@
   text-align: center;
   color: #ffffff;
 }
+
+@media screen and (max-width: 768px) {
+  .identity__signin-ask {
+    margin: 0 auto 40px;
+  }
+}
+
 .identity__signin-link {
   text-decoration: none;
   color: #ffffff;
