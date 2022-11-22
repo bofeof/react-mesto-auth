@@ -57,7 +57,7 @@ export default function Header({ onLogOut }) {
             </div>
           </div>
 
-          <div className="header__user" style={{ display: "flex" }}>
+          <div className="header__user">
             <p className="header__email">email@email</p>
             <button
               style={{ margin: "0 0 40px" }}

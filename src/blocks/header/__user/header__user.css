@@ -1,0 +1,17 @@
+.header__user {
+  display: flex;
+  grid-area: header__user;
+  align-self: start;
+  justify-self: end;
+}
+
+@media screen and (max-width: 768px) {
+  .header__user {
+    margin: 0 auto;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-self: center;
+    justify-self: center;
+  }
+}
