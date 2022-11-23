@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Switch, Route, Redirect, useHistory } from "react-router-dom";
 
 import { API } from "../utils/API.js";
+import UserAuth from "../utils/UserAuth";
 import { configAPI } from "../utils/constants.js";
 
 import Header from "../components/Header";
@@ -24,7 +25,10 @@ import {
 } from "../contexts/CurrentUserContext";
 
 export default function App() {
+  const history = useHistory();
+
   const api = new API(configAPI);
+  const userAuth = new UserAuth();
 
   const [loggedIn, setLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
@@ -200,6 +204,25 @@ export default function App() {
   // login user
   function handleUserLogin(userLoginData) {
     console.log(userLoginData);
+    userAuth
+      .login(userLoginData)
+      .then((data) => {
+        console.log(data);
+        if (data.token) {
+          setLoggedIn(true);
+          history.push("/");
+        } else {
+          setLoggedIn(false);
+          setIsSuccessful(false);
+          setIsInfoPopupOpen(true);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoggedIn(false);
+        setIsSuccessful(false);
+        setIsInfoPopupOpen(true);
+      });
   }
 
   // register user

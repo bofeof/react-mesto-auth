@@ -13,7 +13,7 @@ export class API {
   /** {name, about, avatar, _id, cohort} */
   getUserData() {
     return fetch(`${this._configAPI.mestoUrl}/users/me`, {
-      method: 'GET',
+      method: "GET",
       headers: this._configAPI.headers,
     }).then((res) => this._getResponse(res));
   }
@@ -22,7 +22,7 @@ export class API {
       response => get new user-info **/
   setUserData(userData) {
     return fetch(`${this._configAPI.mestoUrl}/users/me`, {
-      method: 'PATCH',
+      method: "PATCH",
       headers: this._configAPI.headers,
       body: JSON.stringify({
         name: userData.name,
@@ -33,7 +33,7 @@ export class API {
 
   changeUserAvatar(userData) {
     return fetch(`${this._configAPI.mestoUrl}/users/me/avatar`, {
-      method: 'PATCH',
+      method: "PATCH",
       headers: this._configAPI.headers,
       body: JSON.stringify({
         avatar: userData.avatar,
@@ -41,13 +41,12 @@ export class API {
     }).then((res) => this._getResponse(res));
   }
 
-
   /** CARDS */
 
   /** get current cards data from server */
   getGalleryData() {
     return fetch(`${this._configAPI.mestoUrl}/cards`, {
-      method: 'GET',
+      method: "GET",
       headers: this._configAPI.headers,
     }).then((res) => this._getResponse(res));
   }
@@ -55,7 +54,7 @@ export class API {
   /**  response -> get data of created card */
   addPhotoCard(cardData) {
     return fetch(`${this._configAPI.mestoUrl}/cards/`, {
-      method: 'POST',
+      method: "POST",
       headers: this._configAPI.headers,
       body: JSON.stringify({
         name: cardData.name,
@@ -66,25 +65,27 @@ export class API {
 
   removePhotoCard(photoCardId) {
     return fetch(`${this._configAPI.mestoUrl}/cards/${photoCardId}`, {
-      method: 'DELETE',
+      method: "DELETE",
       headers: this._configAPI.headers,
     }).then((res) => this._getResponse(res));
   }
 
-  changeLikeCardStatus(photoCardId, isLiked){
-    return isLiked ? this._removePhotoLike(photoCardId) : this._addPhotoLike(photoCardId)
+  changeLikeCardStatus(photoCardId, isLiked) {
+    return isLiked
+      ? this._removePhotoLike(photoCardId)
+      : this._addPhotoLike(photoCardId);
   }
 
   _addPhotoLike(photoCardId) {
     return fetch(`${this._configAPI.mestoUrl}/cards/${photoCardId}/likes`, {
-      method: 'PUT',
+      method: "PUT",
       headers: this._configAPI.headers,
     }).then((res) => this._getResponse(res));
   }
 
   _removePhotoLike(photoCardId) {
     return fetch(`${this._configAPI.mestoUrl}/cards/${photoCardId}/likes`, {
-      method: 'DELETE',
+      method: "DELETE",
       headers: this._configAPI.headers,
     }).then((res) => this._getResponse(res));
   }
