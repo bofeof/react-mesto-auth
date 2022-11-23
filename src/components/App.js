@@ -26,26 +26,27 @@ import {
 export default function App() {
   const api = new API(configAPI);
 
-  const [loggedIn, setLoggedIn] = useState(true);
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [currentUser, setCurrentUser] = useState({});
 
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = useState(false);
   const [isCardZoomPopupOpen, setCardZoomPopupOpen] = useState(false);
   const [isConfirmPopupOpen, setConfirmPopupOpen] = useState(false);
+  const [isInfoPopupOpen, setIsInfoPopupOpen] = useState(false);
+
   const [cards, setCards] = useState([]);
   const [selectedCard, setSelectedCard] = useState({});
-  const [currentUser, setCurrentUser] = useState({});
+  const [cardForRemove, setCardForRemove] = useState({});
 
   const [btnTextAvatarSubmit, setBtnTextAvatarSubmit] = useState("Сохранить");
   const [btnTextUserSubmit, setBtnTextUserSubmit] = useState("Сохранить");
   const [btnTextCardSubmit, setBtnTextCardSubmit] = useState("Создать");
   const [btnTextConfirm, setBtnTextConfirm] = useState("Да");
 
-  const [cardForRemove, setCardForRemove] = useState({});
-
+  // status for info-popup (api requests)
   const [isSuccessful, setIsSuccessful] = useState(false);
-  const [isInfoPopupOpen, setIsInfoPopupOpen] = useState(true);
 
   const isPopupOpen = [
     isEditProfilePopupOpen,
@@ -66,7 +67,7 @@ export default function App() {
       .catch((err) => console.log(`Ошибка: ${err}`));
   }, []);
 
-  // close by esc and iverlay for popup
+  // additional close-funcs by esc and overlay for popups
   useEffect(() => {
     const popUpActive = document.querySelector(".popup_opened");
 
@@ -130,20 +131,6 @@ export default function App() {
     setCardForRemove(card);
     setConfirmPopupOpen(true);
   }
-
-  function handleLogin() {
-    setLoggedIn(true);
-    // add jsx
-  }
-
-  function handleLogOut() {
-    setLoggedIn(false);
-    // remove jsx
-  }
-
-  // function handleRedirect(pathLink){
-
-  // }
 
   function onCardRemove() {
     setBtnTextConfirm(() => "Удаление...");
@@ -210,11 +197,25 @@ export default function App() {
       .finally(() => setBtnTextCardSubmit(() => "Создать"));
   }
 
+  // login user
+  function handleUserLogin(userLoginData) {
+    console.log(userLoginData);
+  }
+
+  // register user
+  function handleUserRegister(userRegisterData) {
+    console.log(userRegisterData);
+  }
+  // logout user
+  function handleUserLogout() {
+    setLoggedIn(false);
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <LoggedInContext.Provider value={loggedIn}>
         <div className="page page-content">
-          <Header onLogOut={handleLogOut} />
+          <Header onLogOut={handleUserLogout} />
 
           <Switch>
             <ProptectedRoute
@@ -234,11 +235,11 @@ export default function App() {
             />
 
             <Route exact path="/sign-up">
-              <Register />
+              <Register onUserRegister={handleUserRegister} />
             </Route>
 
             <Route exact path="/sign-in">
-              <Login />
+              <Login onUserLogin={handleUserLogin} />
             </Route>
 
             <Route>

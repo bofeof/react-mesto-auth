@@ -1,12 +1,11 @@
 import { useHistory } from "react-router-dom";
 import IdentityForm from "./IdentityForm";
 
-export default function Register() {
+export default function Register({ onUserRegister }) {
   const history = useHistory();
 
-  function handleSignUp(evt) {
-    evt.preventDefault();
-    console.log("signup click");
+  function handleSignUp(userRegisterData) {
+    onUserRegister(userRegisterData);
   }
 
   function handleRedirect(evt) {

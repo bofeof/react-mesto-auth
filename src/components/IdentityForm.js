@@ -59,6 +59,11 @@ export default function IdentityForm({
     }
   }
 
+  function handleFormSubmit(evt) {
+    evt.preventDefault();
+    onClick({ password: password, email: email });
+  }
+
   return (
     <div className="identity__container">
       <h3 className="identity__header">{header}</h3>
@@ -94,7 +99,7 @@ export default function IdentityForm({
 
         <button
           className="identity__form-button"
-          onClick={onClick}
+          onClick={handleFormSubmit}
           disabled={!buttonStatus}>
           {buttonName}
         </button>

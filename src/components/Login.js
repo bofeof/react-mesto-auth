@@ -1,9 +1,8 @@
 import IdentityForm from "./IdentityForm";
 
-export default function Login() {
-  function handleSignIn(evt) {
-    evt.preventDefault();
-    console.log("signin click");
+export default function Login({ onUserLogin }) {
+  function handleSignIn(userLoginData) {
+    onUserLogin(userLoginData);
   }
 
   return (
