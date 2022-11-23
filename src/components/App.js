@@ -44,6 +44,18 @@ export default function App() {
 
   const [cardForRemove, setCardForRemove] = useState({});
 
+  const [isSuccessful, setIsSuccessful] = useState(false);
+  const [isInfoPopupOpen, setIsInfoPopupOpen] = useState(true);
+
+  const isPopupOpen = [
+    isEditProfilePopupOpen,
+    isAddPlacePopupOpen,
+    isEditAvatarPopupOpen,
+    isCardZoomPopupOpen,
+    isConfirmPopupOpen,
+    isInfoPopupOpen,
+  ].includes(true);
+
   // first run: get data about gallery and user
   useEffect(() => {
     Promise.all([api.getGalleryData(), api.getUserData()])
@@ -53,6 +65,36 @@ export default function App() {
       })
       .catch((err) => console.log(`Ошибка: ${err}`));
   }, []);
+
+  // close by esc and iverlay for popup
+  useEffect(() => {
+    const popUpActive = document.querySelector(".popup_opened");
+
+    if (popUpActive) {
+      popUpActive.addEventListener("click", handleClickClose);
+      document.addEventListener("keydown", handleEscClose);
+    }
+
+    function handleClickClose(evt) {
+      if (
+        evt.target.classList.contains("popup") ||
+        evt.target.classList.contains("popup__container") ||
+        evt.target.classList.contains("popup__img-container")
+      ) {
+        closeAllPopups();
+      }
+    }
+
+    function handleEscClose(evt) {
+      if (evt.key === "Escape") {
+        closeAllPopups();
+      }
+    }
+
+    return () => {
+      document.removeEventListener("keydown", handleEscClose);
+    };
+  }, [isPopupOpen]);
 
   function handleEditProfileClick() {
     setEditProfilePopupOpen(true);
@@ -122,6 +164,10 @@ export default function App() {
     setAddPlacePopupOpen(false);
     setConfirmPopupOpen(false);
     setCardZoomPopupOpen(false);
+
+    // popup info
+    setIsInfoPopupOpen(false);
+    setIsSuccessful(false);
 
     setSelectedCard({});
     setCardForRemove({});
@@ -236,7 +282,11 @@ export default function App() {
             card={cardForRemove}
           />
 
-          <InfoTooltip />
+          <InfoTooltip
+            isOpen={isInfoPopupOpen}
+            onClose={closeAllPopups}
+            isSuccessful={isSuccessful}
+          />
 
           <Footer />
         </div>

@@ -79,6 +79,14 @@
 @import url(./blocks/gallery/__like-container/gallery__like-container.css);
 @import url(./blocks/gallery/__like-counter/gallery__like-counter.css);
 
+/* info popup */
+@import url(./blocks/popup/__info/popup__info.css);
+@import url(./blocks/popup/__info-status/popup__info-status.css);
+@import url(./blocks/popup/__info-ok/popup__info-ok.css);
+@import url(./blocks/popup/__info-err/popup__info-err.css);
+@import url(./blocks/popup/__info-text/popup__info-text.css);
+
+/* login/register form */
 @import url(./blocks/identity/__container/identity__container.css);
 @import url(./blocks/identity/__header/identity__header.css);
 @import url(./blocks/identity/__form/identity__form.css);
