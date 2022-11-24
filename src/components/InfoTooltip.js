@@ -29,7 +29,7 @@ export default function InfoTooltip({ isOpen, onClose, isSuccessful }) {
     return () => {
       document.removeEventListener('keydown', handleEscClose);
     };
-  }, [isOpen]);
+  }, [isOpen, onClose]);
 
   return (
     <div className={`popup popup__info ${isOpen ? 'popup_opened' : ''}`}>

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Switch, Route, Redirect, useHistory } from 'react-router-dom';
 
 import { API } from '../utils/API.js';
-import { register, login, checkToken } from '../utils/userAuth';
+import { register, login, checkToken } from '../utils/userAuth.js';
 import { configAPI } from '../utils/constants.js';
 
 import Header from '../components/Header';

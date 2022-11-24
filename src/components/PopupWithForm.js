@@ -29,7 +29,7 @@ export default function PopupWithForm(props) {
     return () => {
       document.removeEventListener('keydown', handleEscClose);
     };
-  }, [props.isOpen]);
+  }, [props, props.isOpen]);
 
   return (
     <div className={`popup popup_type_${props.name} ${props.isOpen ? 'popup_opened' : ''}`}>

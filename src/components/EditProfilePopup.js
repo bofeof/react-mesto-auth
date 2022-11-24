@@ -19,7 +19,7 @@ export default function EditProfilePopup({ isOpen, onClose, onSubmit, buttonSubm
 
     setNameValidation((params) => ({ ...params, isValid: true, errorText: '' }));
     setAboutValidation((params) => ({ ...params, isValid: true, errorText: '' }));
-  }, [isOpen]);
+  }, [isOpen, currentUser.name, currentUser.about]);
 
   function handleUserChange(evt) {
     const value = evt.target.value;

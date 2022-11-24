@@ -1,6 +1,6 @@
 import { LoggedInContext } from '../contexts/CurrentUserContext';
 import { useContext, useEffect, useState } from 'react';
-import { useLocation, useHistory } from 'react-router-dom';
+import { useLocation} from 'react-router-dom';
 
 export default function Header({ onLogOut, loginEmail, history }) {
   const [menuOpened, setMenuOpened] = useState(false);
@@ -14,7 +14,7 @@ export default function Header({ onLogOut, loginEmail, history }) {
     setWindowWidth(window.innerWidth);
     window.addEventListener('resize', updateSize);
     return () => window.removeEventListener('resize', updateSize);
-  });
+  }, []);
 
   function updateSize() {
     setWindowWidth(window.innerWidth);

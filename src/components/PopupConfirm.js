@@ -29,7 +29,7 @@ export default function PopupConfirm({ title, buttonConfirmName, isOpen, onClose
     return () => {
       document.removeEventListener('keydown', handleEscClose);
     };
-  }, [isOpen]);
+  }, [isOpen, onClose]);
 
   function approveRemoving() {
     onConfirm(card);

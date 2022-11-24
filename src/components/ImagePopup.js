@@ -29,7 +29,7 @@ export default function ImagePopup({ card, isOpen, onClose }) {
     return () => {
       document.removeEventListener('keydown', handleEscClose);
     };
-  }, [isOpen]);
+  }, [isOpen, onClose]);
 
   return (
     <div className={`popup popup_zoom_img ${isOpen ? 'popup_opened' : ''}`}>

@@ -14,7 +14,7 @@ export default function EditAvatarPopup({ isOpen, onClose, onSubmit, buttonSubmi
   useEffect(() => {
     avatarRef.current.value = currentUser.avatar;
     setAvatarValidation((params) => ({ ...params, isValid: true, errorText: '' }));
-  }, [isOpen]);
+  }, [isOpen, currentUser.avatar]);
 
   function handleAvatarChange(evt) {
     const validationResult = formValidator(evt);
