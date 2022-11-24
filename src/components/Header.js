@@ -44,7 +44,7 @@ export default function Header({ onLogOut, loginEmail, history }) {
       {windowWidth >= 768 ? (
         // classic menu
         <>
-          <div className="header__menu header__menu-hidden" onClick={handleOpenMenu}>
+          <div className="header__menu header__menu_hidden" onClick={handleOpenMenu}>
             <div className="header__burger-close"></div>
             <div className="header__menu-burger">
               <span className="header__menu-line"></span>
@@ -75,7 +75,7 @@ export default function Header({ onLogOut, loginEmail, history }) {
             )}
           </div>
 
-          <div className="header__user" style={{ display: menuOpened ? 'flex' : 'none' }}>
+          <div className={`header__user ${menuOpened ? 'header__menu_visible' : 'header__menu_hidden'}`}>
             <p className="header__email header__email-burger">{loginEmail || 'email@email.com'}</p>
             <button className="header__button header__logout-button header__button-burger" onClick={handleLogOut}>
               Выйти
@@ -91,8 +91,8 @@ export default function Header({ onLogOut, loginEmail, history }) {
     <header className="header" style={{ gridTemplateAreas: `'header__logo header__menu header__user'` }}>
       <div className="header__logo"></div>
       <div className="header__user">
-        <div className="header__burger-close header__burger-hidden"></div>
-        <div className="header__menu-burger header__burger-hidden">
+        <div className="header__burger-close header__burger-close_hidden"></div>
+        <div className="header__menu-burger header__menu-burger_hidden">
           <span className="header__menu-line"></span>
           <span className="header__menu-line"></span>
           <span className="header__menu-line"></span>
