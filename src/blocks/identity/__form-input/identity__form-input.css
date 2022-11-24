@@ -12,3 +12,9 @@
   line-height: 17px;
   color: #cccccc;
 }
+
+@media screen and (max-width: 768px) {
+  .identity__form-input {
+    padding: 0 0 10px;
+  }
+}

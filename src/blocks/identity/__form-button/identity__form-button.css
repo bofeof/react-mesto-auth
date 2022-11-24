@@ -27,6 +27,8 @@
 
 @media screen and (max-width: 768px) {
   .identity__form-button {
-    margin: 173px auto 20px;
+    margin: 142px auto 20px;
+    font-size: 16px;
+    line-height: 19px;
   }
 }

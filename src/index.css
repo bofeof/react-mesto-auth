@@ -18,6 +18,11 @@
 @import url(./blocks/header/__user/header__user.css);
 @import url(./blocks/header/__email/header__email.css);
 @import url(./blocks/header/__button/header__button.css);
+@import url(./blocks/header/__menu-border/header__menu-border.css);
+@import url(./blocks/header/__button-burger/header__button-burger.css);
+@import url(./blocks/header/__email-burger/header__email-burger.css);
+@import url(./blocks/header/__burger-hidden/header__burger-hidden.css);
+@import url(./blocks/header/__menu-hidden/header__menu-hidden.css);
 
 /* CONTENT */
 @import url(./blocks/content/content.css);

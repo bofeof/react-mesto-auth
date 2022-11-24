@@ -1,5 +1,6 @@
 .header__user {
   display: flex;
+  padding-top: 5px;
   grid-area: header__user;
   align-self: start;
   justify-self: end;
