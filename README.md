@@ -1,9 +1,9 @@
 
 # ✨ Mesto ✨
 
-[Mesto](https://bofeof.github.io/mesto-react/) is a type of Instagram prototype. This project is developed to practice programming skills: Adaptive design, ES6, DOM, API, Promises, Webpack, React.
+[Mesto](https://bofeof.github.io/react-mesto-auth/) is a type of Instagram prototype. This project is developed to practice programming skills: Adaptive design, ES6, DOM, API, Promises, Webpack, React.
 
-Click this [link](https://bofeof.github.io/mesto-react/) to check it out.
+Click this [link](https://bofeof.github.io/react-mesto-auth/) to check it out.
 
 
 ## Available functionality runs through the server:
@@ -25,7 +25,7 @@ Click this [link](https://bofeof.github.io/mesto-react/) to check it out.
 
 ## How to install and run
 
-If you don't want to clone repo just click [Mesto](https://bofeof.github.io/mesto-react/) or after cloning repo you can run:
+If you don't want to clone repo just click [Mesto](https://bofeof.github.io/react-mesto-auth/) or after cloning repo you can run:
 
 ### `npm start`
 Runs the app in the development mode.\
