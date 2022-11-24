@@ -8,7 +8,7 @@ export default function EditProfilePopup({ isOpen, onClose, onSubmit, buttonSubm
   const [name, setName] = useState(currentUser.name);
   const [description, setDescription] = useState(currentUser.about);
 
- /**validation sets */
+  /**validation sets */
   const [nameValidation, setNameValidation] = useState({ isValid: true, errorText: '' });
   const [aboutValidation, setAboutValidation] = useState({ isValid: true, errorText: '' });
   const buttonStatus = ![nameValidation.isValid, aboutValidation.isValid].includes(false);

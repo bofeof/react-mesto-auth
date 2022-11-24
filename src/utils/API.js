@@ -5,7 +5,7 @@ export class API {
 
   /**  get response from all request */
   _getResponse(res) {
-    return res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
+    return res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}, ${res.statusText}`);
   }
 
   /** USER */

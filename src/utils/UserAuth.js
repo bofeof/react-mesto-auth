@@ -1,86 +1,50 @@
-const BASE_URL = "https://api.nomoreparties.co";
+const BASE_URL = 'https://auth.nomoreparties.co';
 
-export default class UserAuth {
-  constructor(userData) {
-    this._userData = userData;
+function getResponse(res) {
+  if (res.ok) {
+    return res.json();
+  } else {
+    res.json().then((errText) => console.log('Дополнительное сообщение с сервера:', errText || '-'));
+    return Promise.reject(`Ошибка: ${res.status}, ${res.statusText}`);
   }
+}
 
-  //   get err message while login\register
-  _getErrMessage(err) {
-    switch (err.status) {
-      case 400:
-        return `Ошибка: ${err.status}. Не передано одно из полей`;
-      case 401:
-        return `Ошибка: ${err.status}. Пользователь с email не найден `;
-      default:
-        return `Ошибка: ${err.status}`;
-    }
-  }
+export function register(userData) {
+  return fetch(`${BASE_URL}/signup`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(userData),
+  })
+    .then((res) => getResponse(res))
+    .then((res) => res)
+    .catch((err) => console.log(err));
+}
 
-  login() {
-    return fetch(`${BASE_URL}/signin`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: this._userData,
-    })
-      .then((res) => {
-        try {
-          if (res.status === 200) {
-            return res.json();
-          }
-        } catch (err) {
-          return err;
-        }
-      })
-      .then((res) => res)
-      .catch((err) => this._getErrMessage(err));
-  }
+export function login(userData) {
+  return fetch(`${BASE_URL}/signin`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(userData),
+  })
+    .then((res) => getResponse(res))
+    .then((res) => res)
+    .catch((err) => console.log(err));
+}
 
-  register() {
-    return fetch(`${BASE_URL}/signup`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: this._userData,
-    })
-      .then((res) => {
-        try {
-          if (res.status === 200) {
-            return res.json;
-          }
-        } catch (err) {
-          return err;
-        }
-      })
-      .then((res) => res)
-      .catch((err) => this._getErrMessage(err));
-  }
-
-  getContent(token) {
-    return fetch(`${BASE_URL}/me`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((res) => {
-        try {
-          if ((res.status = 200)) {
-            return res.json();
-          }
-        } catch (err) {
-          return err;
-        }
-      })
-      .then((res) => res)
-      .catch((err) => {
-        if ((err.status = 400)) {
-          return `Ошибка: ${err.status}. Токен не передан или передан не в том формате`;
-        }
-        if ((err.status = 401)) {
-          return `Ошибка: ${err.status}. Переданный токен некорректен `;
-        }
-        return `Ошибка: ${err.status}`;
-      });
-  }
+export function checkToken(token) {
+  return fetch(`${BASE_URL}/users/me`, {
+    method: 'GET',
+    headers: {
+      authorization: `Bearer ${localStorage.getItem('mestoToken')}`,
+    },
+  })
+    .then((res) => getResponse(res))
+    .then((res) => res)
+    .catch((err) => console.log(err));
 }

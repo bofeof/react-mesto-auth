@@ -1,48 +1,40 @@
-import { useState, useEffect } from "react";
-import { formValidator } from "../utils/formValidator";
+import { useState, useEffect } from 'react';
+import { formValidator } from '../utils/formValidator';
 
-export default function IdentityForm({
-  header,
-  buttonName,
-  onClick,
-  askSignIn,
-}) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+export default function IdentityForm({ header, buttonName, onClick, askSignIn }) {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const [emailValidation, setEmailValidation] = useState({
     isValid: true,
-    errorText: "",
+    errorText: '',
   });
 
   const [passwordValidation, setPasswordValidation] = useState({
     isValid: true,
-    errorText: "",
+    errorText: '',
   });
 
-  const buttonStatus = ![
-    emailValidation.isValid,
-    passwordValidation.isValid,
-  ].includes(false);
+  const buttonStatus = ![emailValidation.isValid, passwordValidation.isValid].includes(false);
 
   useEffect(() => {
     setEmailValidation((params) => ({
       ...params,
       isValid: false,
-      errorText: "",
+      errorText: '',
     }));
 
     setPasswordValidation((params) => ({
       ...params,
       isValid: false,
-      errorText: "",
+      errorText: '',
     }));
   }, []);
 
   function handleInputChange(evt) {
     const value = evt.target.value;
     const validationResult = formValidator(evt);
-    if (evt.target.name === "email") {
+    if (evt.target.name === 'email') {
       setEmail(value);
       setEmailValidation((params) => ({
         ...params,
@@ -77,10 +69,9 @@ export default function IdentityForm({
           placeholder="Email"
           required="required"
           value={email}
-          onChange={handleInputChange}></input>
-        <span className="identity__input-error">
-          {emailValidation.errorText}
-        </span>
+          onChange={handleInputChange}
+        ></input>
+        <span className="identity__input-error">{emailValidation.errorText}</span>
 
         <input
           className="identity__form-input"
@@ -92,15 +83,11 @@ export default function IdentityForm({
           placeholder="Пароль"
           required="required"
           value={password}
-          onChange={handleInputChange}></input>
-        <span className="identity__input-error">
-          {passwordValidation.errorText}
-        </span>
+          onChange={handleInputChange}
+        ></input>
+        <span className="identity__input-error">{passwordValidation.errorText}</span>
 
-        <button
-          className="identity__form-button"
-          onClick={handleFormSubmit}
-          disabled={!buttonStatus}>
+        <button className="identity__form-button" onClick={handleFormSubmit} disabled={!buttonStatus}>
           {buttonName}
         </button>
 

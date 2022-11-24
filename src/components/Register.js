@@ -1,16 +1,13 @@
-import { useHistory } from "react-router-dom";
-import IdentityForm from "./IdentityForm";
+import IdentityForm from './IdentityForm';
 
-export default function Register({ onUserRegister }) {
-  const history = useHistory();
-
+export default function Register({ onUserRegister, history }) {
   function handleSignUp(userRegisterData) {
     onUserRegister(userRegisterData);
   }
 
   function handleRedirect(evt) {
     evt.preventDefault();
-    history.push("/sign-in");
+    history.push('/sign-in');
   }
 
   return (
@@ -21,11 +18,8 @@ export default function Register({ onUserRegister }) {
         onClick={handleSignUp}
         askSignIn={
           <p className="identity__signin-ask">
-            Уже зарегистрированы?{" "}
-            <a
-              className="identity__signin-link"
-              href="./sign-in"
-              onClick={handleRedirect}>
+            Уже зарегистрированы?{' '}
+            <a className="identity__signin-link" href="./sign-in" onClick={handleRedirect}>
               Войти
             </a>
           </p>
