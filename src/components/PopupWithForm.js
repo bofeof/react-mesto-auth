@@ -3,21 +3,8 @@ import { useEffect } from 'react';
 export default function PopupWithForm(props) {
   // additional close-func by esc and overlay for popup
   useEffect(() => {
-    const popUpActive = document.querySelector('.popup_opened');
-
-    if (popUpActive) {
-      popUpActive.addEventListener('click', handleClickClose);
+    if (props.isOpen) {
       document.addEventListener('keydown', handleEscClose);
-    }
-
-    function handleClickClose(evt) {
-      if (
-        evt.target.classList.contains('popup') ||
-        evt.target.classList.contains('popup__container') ||
-        evt.target.classList.contains('popup__img-container')
-      ) {
-        props.onClose();
-      }
     }
 
     function handleEscClose(evt) {
@@ -29,10 +16,21 @@ export default function PopupWithForm(props) {
     return () => {
       document.removeEventListener('keydown', handleEscClose);
     };
-  }, [props, props.isOpen]);
+    
+  }, [props.isOpen, props.onClose, props]);
+
+  function handleClickOverlay(evt) {
+    if (
+      evt.target.classList.contains('popup') ||
+      evt.target.classList.contains('popup__container') ||
+      evt.target.classList.contains('popup__img-container')
+    ) {
+      props.onClose();
+    }
+  }
 
   return (
-    <div className={`popup popup_type_${props.name} ${props.isOpen ? 'popup_opened' : ''}`}>
+    <div className={`popup popup_type_${props.name} ${props.isOpen ? 'popup_opened' : ''}`} onClick={handleClickOverlay}>
       <div className="popup__container">
         <button type="button" className="popup__close-button" onClick={props.onClose}></button>
         <div className="popup__form">
