@@ -8,17 +8,30 @@ export default function EditAvatarPopup({ isOpen, onClose, onSubmit, buttonSubmi
   const avatarRef = useRef();
 
   /**validation sets */
-  const [avatarValidation, setAvatarValidation] = useState({ isValid: true, errorText: '' });
-  const buttonStatus = ![avatarValidation.isValid].includes(false);
+  const [inputsValidation, setInputsValidation] = useState({
+    avatar: { isValid: true, errorText: '' },
+  });
+
+  const buttonStatus = ![inputsValidation.avatar.isValid].includes(false);
 
   useEffect(() => {
     avatarRef.current.value = currentUser.avatar;
-    setAvatarValidation((params) => ({ ...params, isValid: true, errorText: '' }));
+    setInputsValidation((prevInuptsValidation) => ({
+      ...prevInuptsValidation,
+      avatar: { isValid: true, errorText: '' },
+    }));
   }, [isOpen, currentUser.avatar]);
 
   function handleAvatarChange(evt) {
+    const { name } = evt.target;
     const validationResult = formValidator(evt);
-    setAvatarValidation((params) => ({ ...params, isValid: validationResult.isValid, errorText: validationResult.errorText }));
+    setInputsValidation((prevInuptsValidation) => ({
+      ...prevInuptsValidation,
+      [name]: {
+        isValid: validationResult.isValid,
+        errorText: validationResult.errorText,
+      },
+    }));
   }
 
   function handleAvatarSubmit(evt) {
@@ -49,7 +62,7 @@ export default function EditAvatarPopup({ isOpen, onClose, onSubmit, buttonSubmi
           onChange={handleAvatarChange}
         />
 
-        <span className="popup__input-error url-input-avatar-error">{avatarValidation.errorText}</span>
+        <span className="popup__input-error url-input-avatar-error">{inputsValidation.avatar.errorText}</span>
       </>
     </PopupWithForm>
   );

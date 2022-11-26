@@ -3,37 +3,41 @@ import PopupWithForm from './PopupWithForm';
 import React, { useEffect, useState } from 'react';
 
 export default function AddPlacePopup({ isOpen, onClose, onSubmit, buttonSubmitName }) {
-  const [cardName, setCardName] = useState('');
-  const [cardLink, setCardLink] = useState('');
+  const [cardInfo, setCardInfo] = useState({ name: '', link: '' });
 
   /**validation sets */
-  const [nameValidation, setNameValidation] = useState({ isValid: false, errorText: '' });
-  const [linkValidation, setLinkValidation] = useState({ isValid: false, errorText: '' });
-  const buttonStatus = ![nameValidation.isValid, linkValidation.isValid].includes(false);
+  const [inputsValidation, setInputsValidation] = useState({
+    name: { isValid: false, errorText: '' },
+    link: { isValid: false, errorText: '' },
+  });
+
+  const buttonStatus = ![inputsValidation.name.isValid, inputsValidation.link.isValid].includes(false);
 
   useEffect(() => {
-    setCardName('');
-    setCardLink('');
-    setNameValidation((params) => ({ ...params, isValid: false, errorText: '' }));
-    setLinkValidation((params) => ({ ...params, isValid: false, errorText: '' }));
+    setCardInfo((prevCardInfo) => ({ ...prevCardInfo, name: '', link: '' }));
+    setInputsValidation((prevInuptsValidation) => ({
+      ...prevInuptsValidation,
+      name: { isValid: false, errorText: '' },
+      link: { isValid: false, errorText: '' },
+    }));
   }, [isOpen]);
 
   function handleCardChange(evt) {
-    const value = evt.target.value;
+    const { name, value } = evt.target;
     const validationResult = formValidator(evt);
-
-    if (evt.target.name === 'name') {
-      setCardName(value);
-      setNameValidation((params) => ({ ...params, isValid: validationResult.isValid, errorText: validationResult.errorText }));
-    } else {
-      setCardLink(value);
-      setLinkValidation((params) => ({ ...params, isValid: validationResult.isValid, errorText: validationResult.errorText }));
-    }
+    setCardInfo((prevUserInfo) => ({ ...prevUserInfo, [name]: value }));
+    setInputsValidation((prevInuptsValidation) => ({
+      ...prevInuptsValidation,
+      [name]: {
+        isValid: validationResult.isValid,
+        errorText: validationResult.errorText,
+      },
+    }));
   }
 
   function handleCardSubmit(evt) {
     evt.preventDefault();
-    onSubmit({ name: cardName, link: cardLink });
+    onSubmit({ name: cardInfo.name, link: cardInfo.link });
     onClose();
   }
 
@@ -57,10 +61,10 @@ export default function AddPlacePopup({ isOpen, onClose, onSubmit, buttonSubmitN
           minLength="2"
           maxLength="30"
           required="required"
-          value={cardName}
+          value={cardInfo.name}
           onChange={handleCardChange}
         />
-        <span className="popup__input-error photoname-input-error">{nameValidation.errorText}</span>
+        <span className="popup__input-error photoname-input-error">{inputsValidation.name.errorText}</span>
 
         <input
           className="popup__input popup__input_form_photolink"
@@ -69,10 +73,10 @@ export default function AddPlacePopup({ isOpen, onClose, onSubmit, buttonSubmitN
           placeholder="Ссылка на картинку"
           id="url-input"
           required="required"
-          value={cardLink}
+          value={cardInfo.link}
           onChange={handleCardChange}
         />
-        <span className="popup__input-error url-input-error">{linkValidation.errorText}</span>
+        <span className="popup__input-error url-input-error">{inputsValidation.link.errorText}</span>
       </>
     </PopupWithForm>
   );

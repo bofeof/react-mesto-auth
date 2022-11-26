@@ -2,58 +2,46 @@ import { useState, useEffect } from 'react';
 import { formValidator } from '../utils/formValidator';
 
 export default function IdentityForm({ header, buttonName, onClick, askSignIn }) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [userInfo, setUserInfo] = useState({ email: '', password: '' });
 
-  const [emailValidation, setEmailValidation] = useState({
-    isValid: true,
-    errorText: '',
+  /**validation sets */
+  const [inputsValidation, setInputsValidation] = useState({
+    email: { isValid: false, errorText: '' },
+    password: { isValid: false, errorText: '' },
   });
 
-  const [passwordValidation, setPasswordValidation] = useState({
-    isValid: true,
-    errorText: '',
-  });
-
-  const buttonStatus = ![emailValidation.isValid, passwordValidation.isValid].includes(false);
+  const buttonStatus = ![inputsValidation.email.isValid, inputsValidation.password.isValid].includes(false);
 
   useEffect(() => {
-    setEmailValidation((params) => ({
-      ...params,
-      isValid: false,
-      errorText: '',
+    setUserInfo((prevUserInfo) => ({
+      ...prevUserInfo,
+      email: '',
+      password: '',
     }));
 
-    setPasswordValidation((params) => ({
-      ...params,
-      isValid: false,
-      errorText: '',
+    setInputsValidation((prevInuptsValidation) => ({
+      ...prevInuptsValidation,
+      email: { isValid: false, errorText: '' },
+      password: { isValid: false, errorText: '' },
     }));
   }, []);
 
   function handleInputChange(evt) {
-    const value = evt.target.value;
+    const { name, value } = evt.target;
     const validationResult = formValidator(evt);
-    if (evt.target.name === 'email') {
-      setEmail(value);
-      setEmailValidation((params) => ({
-        ...params,
+    setUserInfo((prevUserInfo) => ({ ...prevUserInfo, [name]: value }));
+    setInputsValidation((prevInuptsValidation) => ({
+      ...prevInuptsValidation,
+      [name]: {
         isValid: validationResult.isValid,
         errorText: validationResult.errorText,
-      }));
-    } else {
-      setPassword(value);
-      setPasswordValidation((params) => ({
-        ...params,
-        isValid: validationResult.isValid,
-        errorText: validationResult.errorText,
-      }));
-    }
+      },
+    }));
   }
 
   function handleFormSubmit(evt) {
     evt.preventDefault();
-    onClick({ password: password, email: email });
+    onClick({ password: userInfo.password, email: userInfo.email });
   }
 
   return (
@@ -68,10 +56,10 @@ export default function IdentityForm({ header, buttonName, onClick, askSignIn })
           id="email-input"
           placeholder="Email"
           required="required"
-          value={email}
+          value={userInfo.email}
           onChange={handleInputChange}
         ></input>
-        <span className="identity__input-error">{emailValidation.errorText}</span>
+        <span className="identity__input-error">{inputsValidation.email.errorText}</span>
 
         <input
           className="identity__form-input"
@@ -82,10 +70,10 @@ export default function IdentityForm({ header, buttonName, onClick, askSignIn })
           minLength="6"
           placeholder="Пароль"
           required="required"
-          value={password}
+          value={userInfo.password}
           onChange={handleInputChange}
         ></input>
-        <span className="identity__input-error">{passwordValidation.errorText}</span>
+        <span className="identity__input-error">{inputsValidation.password.errorText}</span>
 
         <button className="identity__form-button" onClick={handleFormSubmit} disabled={!buttonStatus}>
           {buttonName}
