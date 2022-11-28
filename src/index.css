@@ -6,6 +6,7 @@
 
 /* PAGE */
 @import url(./blocks/page/page.css);
+@import url(./blocks/page/__not-found/page__not-found.css);
 
 @import url(./blocks/page-content/page-content.css);
 
@@ -26,7 +27,6 @@
 @import url(./blocks/header/__menu-burger/_hidden/header__menu-burger_hidden.css);
 @import url(./blocks/header/__menu/_visible/header__menu_visible.css);
 @import url(./blocks/header/__menu/_hidden/header__menu_hidden.css);
-
 
 /* CONTENT */
 @import url(./blocks/content/content.css);

@@ -12,6 +12,7 @@ import Login from './Login';
 import Register from './Register';
 import ProptectedRoute from './ProtectedRoute';
 import InfoTooltip from './InfoTooltip';
+import PageNotFound from './PageNotFound.js';
 
 import ImagePopup from '../components/ImagePopup';
 import PopupConfirm from '../components/PopupConfirm';
@@ -259,6 +260,10 @@ export default function App() {
 
             <Route exact path="/sign-in">
               <Login onUserLogin={handleUserLogin} />
+            </Route>
+
+            <Route path="*">
+              <PageNotFound></PageNotFound>
             </Route>
 
             <Route>{loggedIn ? <Redirect to="/" /> : <Redirect to="/sign-in" />}</Route>
