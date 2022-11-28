@@ -166,7 +166,7 @@ export default function App() {
     localStorage.removeItem('mestoUserEmail');
     localStorage.removeItem('mestoToken');
     setLoggedIn(false);
-    history.push('/login');
+    history.push('/sign-in');
   }
 
   function onCardRemove() {
@@ -263,7 +263,7 @@ export default function App() {
             </Route>
 
             <Route path="*">
-              <PageNotFound></PageNotFound>
+              <PageNotFound history={history}/>
             </Route>
 
             <Route>{loggedIn ? <Redirect to="/" /> : <Redirect to="/sign-in" />}</Route>
